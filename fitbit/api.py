@@ -71,9 +71,8 @@ class FitbitOauth2Client(object):
             # through that check
             if response.status_code == 401:
                 d = json.loads(response.content.decode('utf8'))
-                if d['errors'][0]['errorType'] == 'expired_token':
-                    self.refresh_token()
-                    response = self.session.request(method, url, **kwargs)
+                self.refresh_token()
+                response = self.session.request(method, url, **kwargs)
 
             return response
         except requests.Timeout as e:
